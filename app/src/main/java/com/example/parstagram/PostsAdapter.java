@@ -45,6 +45,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         return posts.size();
     }
 
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Post> list) {
+        posts.addAll(list);
+        notifyDataSetChanged();
+    }
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvUsername;
@@ -66,5 +76,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 Glide.with(context).load(post.getImage().getUrl()).into(ivImage);
             }
         }
+
     }
 }
