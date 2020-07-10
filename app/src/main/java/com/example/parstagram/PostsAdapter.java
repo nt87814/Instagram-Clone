@@ -1,6 +1,7 @@
 package com.example.parstagram;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,22 +65,28 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvUsername;
         private ImageView ivImage;
         private TextView tvDescription;
+        private TextView tvTimestamp;
+        private ImageView ivProfileImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
+            ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             itemView.setOnClickListener(this);
         }
 
         public void bind(Post post) {
             tvDescription.setText(post.getDescription());
             tvUsername.setText(post.getUser().getUsername());
+            tvTimestamp.setText(DetailsFragment.getRelativeTimeAgo(post.getCreatedAt().toString()));
             ParseFile image = post.getImage();
             if (image != null) {
                 Glide.with(context).load(post.getImage().getUrl()).into(ivImage);
             }
+            Glide.with(context).load(post.getUser().getParseFile("profileImage").getUrl()).into(ivProfileImage);
         }
 
         @Override
@@ -88,11 +95,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             Toast.makeText(context, "Item clicked at position: " + position, Toast.LENGTH_SHORT).show();
             if (position != RecyclerView.NO_POSITION) {
                 Post post = posts.get(position);
-
-//                Intent intent = new Intent(context, DetailsActivity.class);
-////                intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-//                context.startActivity(intent);
-//                ((Activity) context).startActivityForResult(intent, 40);
 
                 DetailsFragment detailsFragment = new DetailsFragment();
                 Bundle bundle = new Bundle();

@@ -96,7 +96,7 @@ public class DetailsFragment extends Fragment {
         tvTimestamp.setText(getRelativeTimeAgo(bundle.getString("created_at")));
     }
 
-    private String getRelativeTimeAgo(String rawJsonDate) {
+    public static String getRelativeTimeAgo(String rawJsonDate) {
         if (rawJsonDate  == null) {
             return "NULL";
         }
