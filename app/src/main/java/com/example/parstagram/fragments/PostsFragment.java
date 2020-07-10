@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.parstagram.Post;
+import com.example.parstagram.models.Post;
 import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.R;
 import com.parse.FindCallback;
@@ -112,7 +112,7 @@ public class PostsFragment extends Fragment {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.setLimit(20);
-        query.addDescendingOrder(Post.KEY_CREATED_KEY);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
 
         query.findInBackground(new FindCallback<Post>() {
             @Override

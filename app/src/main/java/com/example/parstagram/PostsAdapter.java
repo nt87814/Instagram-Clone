@@ -1,19 +1,23 @@
 package com.example.parstagram;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.activities.MainActivity;
+import com.example.parstagram.fragments.DetailsFragment;
+import com.example.parstagram.models.Post;
 import com.parse.ParseFile;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -55,7 +59,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         posts.addAll(list);
         notifyDataSetChanged();
     }
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tvUsername;
         private ImageView ivImage;
@@ -65,7 +69,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
-            tvDescription = itemView.findViewById(R.id.tvDesciption);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Post post) {
@@ -77,5 +82,41 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             }
         }
 
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Toast.makeText(context, "Item clicked at position: " + position, Toast.LENGTH_SHORT).show();
+            if (position != RecyclerView.NO_POSITION) {
+                Post post = posts.get(position);
+
+//                Intent intent = new Intent(context, DetailsActivity.class);
+////                intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+//                context.startActivity(intent);
+//                ((Activity) context).startActivityForResult(intent, 40);
+
+                DetailsFragment detailsFragment = new DetailsFragment();
+                Bundle bundle = new Bundle();
+//                bundle.putParcelable("post", post);
+                bundle.putString("username", post.getUser().getUsername());
+                if (post.getImage() != null) {
+                    bundle.putString("image", post.getImage().getUrl());
+                }
+
+                bundle.putString("description", post.getDescription());
+                bundle.putString("created_at", post.getCreatedAt().toString());
+                detailsFragment.setArguments(bundle);
+                switchFragment(R.id.flContainer, detailsFragment);
+            }
+        }
+
+        public void switchFragment(int id, Fragment fragment) {
+            if (context == null)
+                return;
+            if (context instanceof MainActivity) {
+                MainActivity mainActivity = (MainActivity) context;
+                mainActivity.loadFragment(id, fragment);
+            }
+
+        }
     }
 }
