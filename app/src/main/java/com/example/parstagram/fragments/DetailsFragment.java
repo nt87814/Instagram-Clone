@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.R;
+import com.example.parstagram.activities.MainActivity;
 import com.example.parstagram.models.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -43,6 +45,7 @@ public class DetailsFragment extends Fragment {
     private String mParam2;
 
     private Bundle bundle;
+    private Post post;
 
     private TextView tvUsername;
     private ImageView ivImage;
@@ -50,6 +53,7 @@ public class DetailsFragment extends Fragment {
     private TextView tvTimestamp;
     private ImageButton btnLike;
     private TextView tvLikes;
+    private ImageView ivProfileImage;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -99,12 +103,14 @@ public class DetailsFragment extends Fragment {
         tvTimestamp = view.findViewById(R.id.tvTimestamp);
         btnLike = view.findViewById(R.id.btnLike);
         tvLikes = view.findViewById(R.id.tvLikes);
+        ivProfileImage = view.findViewById(R.id.ivProfileImage);
 
-        final Post post = (Post) bundle.getParcelable("post");
+        post = (Post) bundle.getParcelable("post");
         tvUsername.setText(post.getUser().getUsername());
         if (post.getImage() != null) {
             Glide.with(getContext()).load(post.getImage().getUrl()).into(ivImage);
         }
+        Glide.with(getContext()).load(post.getUser().getParseFile("profileImage").getUrl()).into(ivProfileImage);
         tvDescription.setText(post.getDescription());
         tvTimestamp.setText(getRelativeTimeAgo(post.getCreatedAt().toString()));
 
@@ -127,6 +133,28 @@ public class DetailsFragment extends Fragment {
                 btnLike.setImageResource(R.drawable.ufi_heart_active);
             }
         });
+
+        tvUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goUserFragment();
+            }
+        });
+
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goUserFragment();
+            }
+        });
+    }
+
+    private void goUserFragment() {
+        UserFragment userFragment = new UserFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("user", post.getUser());
+        userFragment.setArguments(bundle);
+        switchFragment(R.id.flContainer, userFragment);
     }
 
     public static String getRelativeTimeAgo(String rawJsonDate) {
@@ -156,5 +184,15 @@ public class DetailsFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    public void switchFragment(int id, Fragment fragment) {
+        if (getContext() == null)
+            return;
+        if (getContext() instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) getContext();
+            mainActivity.loadFragment(id, fragment);
+        }
+
     }
 }

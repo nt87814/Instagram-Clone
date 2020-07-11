@@ -54,12 +54,12 @@ public class ProfileFragment extends Fragment {
 
     private File photoFile;
     public String photoFileName = "photo.jpg";
-    private RecyclerView rvProfilePosts;
+    protected RecyclerView rvProfilePosts;
     protected PostsProfileAdapter adapter;
     protected List<Post> allPosts;
-    private ImageView ivProfileImage;
+    protected ImageView ivProfileImage;
     private Button btnProfileImage;
-    private TextView tvUsername;
+    protected TextView tvUsername;
     private ParseUser currentUser;
 
     @Override
