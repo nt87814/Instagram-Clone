@@ -89,7 +89,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (image != null) {
                 Glide.with(context).load(post.getImage().getUrl()).centerInside().into(ivImage);
             }
-            Glide.with(context).load(post.getUser().getParseFile("profileImage").getUrl()).into(ivProfileImage);
+            ParseFile profileImage = post.getUser().getParseFile("profileImage");
+            if (profileImage != null) {
+                Glide.with(context).load(profileImage.getUrl()).into(ivProfileImage);
+            }
         }
 
         @Override

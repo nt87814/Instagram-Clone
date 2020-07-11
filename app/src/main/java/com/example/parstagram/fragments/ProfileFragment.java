@@ -138,7 +138,11 @@ public class ProfileFragment extends Fragment {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        Glide.with(getContext()).load(currentUser.getParseFile("profileImage").getUrl()).into(ivProfileImage);
+        ParseFile profileImage = currentUser.getParseFile("profileImage");
+        if (profileImage != null) {
+            Glide.with(getContext()).load(profileImage.getUrl()).into(ivProfileImage);
+        }
+
         tvUsername.setText(currentUser.getUsername());
 
     }
