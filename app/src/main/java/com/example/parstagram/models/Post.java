@@ -1,19 +1,15 @@
 package com.example.parstagram.models;
 
 import com.example.parstagram.fragments.DetailsFragment;
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import org.json.JSONArray;
-import org.parceler.Parcel;
-
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+/**
+ * Class for Post objects
+ * */
 @ParseClassName("Post")
 //@Parcel
 public class Post extends ParseObject {
@@ -56,7 +52,7 @@ public class Post extends ParseObject {
         }
 
         else {
-            likedBy = new ArrayList<ParseObject>();
+            likedBy = new ArrayList<>();
             likedBy.add(parseUser);
         }
         put(KEY_LIKES, likedBy);

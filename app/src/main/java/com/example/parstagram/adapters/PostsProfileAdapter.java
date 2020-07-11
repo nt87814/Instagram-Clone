@@ -1,4 +1,8 @@
-package com.example.parstagram;
+package com.example.parstagram.adapters;
+
+/**
+ * Adapter profile posts in grid view
+ * */
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.fragments.DetailsFragment;
+import com.example.parstagram.R;
 import com.example.parstagram.models.Post;
 import com.parse.ParseFile;
 
@@ -54,15 +58,13 @@ public class PostsProfileAdapter extends RecyclerView.Adapter<PostsProfileAdapte
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImage = itemView.findViewById(R.id.ivImage);
-//            itemView.setOnClickListener(this);
-
         }
 
         public void bind(Post post) {
@@ -72,9 +74,5 @@ public class PostsProfileAdapter extends RecyclerView.Adapter<PostsProfileAdapte
             }
         }
 
-        @Override
-        public void onClick(View view) {
-
-        }
     }
 }

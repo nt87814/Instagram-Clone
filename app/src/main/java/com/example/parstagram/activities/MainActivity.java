@@ -1,5 +1,12 @@
 package com.example.parstagram.activities;
 
+/**
+ * Activity for bottom navigation view
+ *
+ * This activity is used to open different fragments from the bottom navigation view
+ *
+ * */
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;

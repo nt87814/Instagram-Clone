@@ -24,14 +24,12 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.PostsProfileAdapter;
+import com.example.parstagram.adapters.PostsProfileAdapter;
 import com.example.parstagram.activities.LoginActivity;
 import com.example.parstagram.models.Post;
-import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -45,7 +43,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-
+/**
+ * Fragment for viewing signed in users profile
+ *
+ * User can upload new profile picture
+ * */
 public class ProfileFragment extends Fragment {
 
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 45;
@@ -58,9 +60,7 @@ public class ProfileFragment extends Fragment {
     protected PostsProfileAdapter adapter;
     protected List<Post> allPosts;
     protected ImageView ivProfileImage;
-    private Button btnProfileImage;
     protected TextView tvUsername;
-    private ParseUser currentUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,7 +112,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
@@ -120,7 +119,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         rvProfilePosts = view.findViewById(R.id.rvProfilePosts);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
-        btnProfileImage = view.findViewById(R.id.btnProfileImage);
+        Button btnProfileImage = view.findViewById(R.id.btnProfileImage);
         tvUsername = view.findViewById(R.id.tvUsername);
 
         btnProfileImage.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +136,7 @@ public class ProfileFragment extends Fragment {
         rvProfilePosts.setAdapter(adapter);
 
 
-        currentUser = ParseUser.getCurrentUser();
+        ParseUser currentUser = ParseUser.getCurrentUser();
 
         Glide.with(getContext()).load(currentUser.getParseFile("profileImage").getUrl()).into(ivProfileImage);
         tvUsername.setText(currentUser.getUsername());

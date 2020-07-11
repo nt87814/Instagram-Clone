@@ -5,13 +5,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.PostsProfileAdapter;
+import com.example.parstagram.adapters.PostsProfileAdapter;
 import com.example.parstagram.R;
 import com.example.parstagram.models.Post;
 import com.parse.FindCallback;
@@ -21,15 +22,16 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Fragment for viewing other user's profiles
+ * */
 public class UserFragment extends ProfileFragment {
 
-    private Bundle bundle;
     private ParseUser user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        bundle = this.getArguments();
+        Bundle bundle = this.getArguments();
         user = (ParseUser) bundle.get("user");
 
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -64,7 +66,7 @@ public class UserFragment extends ProfileFragment {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+                    Toast.makeText(getContext(), "Couldn't load posts!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

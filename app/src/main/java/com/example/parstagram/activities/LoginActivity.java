@@ -1,5 +1,12 @@
 package com.example.parstagram.activities;
 
+/**
+ * Activity for Login page
+ *
+ * This activity is used for the user to login and sign up.
+ *
+ * */
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -41,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "onClick login button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                  loginUser(username, password);
@@ -51,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "onClick signup button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 signUpUser(username, password);
@@ -68,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
                     // TODO: better error handling
-                    Log.e(TAG, "Issue with login", e);
                     Toast.makeText(LoginActivity.this, "Issue with login!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -81,12 +85,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signUpUser(String username, String password) {
         Log.i(TAG, "Attempting to login user " + username);
-        // Create the ParseUser
         ParseUser user = new ParseUser();
-        // Set core properties
         user.setUsername(username);
         user.setPassword(password);
-        // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e != null) {
@@ -102,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     private void goMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-        // finish login activity once we do the navigation so going back won't go to the login page
+        // finish login activity once we go the navigation so going back won't go to the login page
         finish();
     }
 

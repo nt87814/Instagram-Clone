@@ -1,7 +1,10 @@
-package com.example.parstagram;
+package com.example.parstagram.adapters;
+
+/**
+ * Adapter for timeline posts
+ * */
 
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.R;
 import com.example.parstagram.activities.MainActivity;
 import com.example.parstagram.fragments.DetailsFragment;
 import com.example.parstagram.models.Post;
@@ -55,7 +59,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
     public void addAll(List<Post> list) {
         posts.addAll(list);
         notifyDataSetChanged();
