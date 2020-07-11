@@ -16,15 +16,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.PostsProfileAdapter;
 import com.example.parstagram.activities.LoginActivity;
 import com.example.parstagram.models.Post;
 import com.example.parstagram.PostsAdapter;
@@ -42,16 +46,20 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileFragment extends PostsFragment{
+public class ProfileFragment extends Fragment {
 
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 45;
 
+    public static final String TAG = "ProfileFragment";
 
     private File photoFile;
     public String photoFileName = "photo.jpg";
     private RecyclerView rvProfilePosts;
+    protected PostsProfileAdapter adapter;
+    protected List<Post> allPosts;
     private ImageView ivProfileImage;
     private Button btnProfileImage;
+    private TextView tvUsername;
     private ParseUser currentUser;
 
     @Override
@@ -76,7 +84,6 @@ public class ProfileFragment extends PostsFragment{
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
     protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
@@ -95,7 +102,8 @@ public class ProfileFragment extends PostsFragment{
                 for (Post post : posts) {
                     Log.i(TAG, "Posts: " + post.getDescription() + ", username: " + post.getUser().getUsername());
                 }
-                allPosts.addAll(posts);
+                adapter.clear();
+                adapter.addAll(posts);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -110,10 +118,10 @@ public class ProfileFragment extends PostsFragment{
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
         rvProfilePosts = view.findViewById(R.id.rvProfilePosts);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         btnProfileImage = view.findViewById(R.id.btnProfileImage);
+        tvUsername = view.findViewById(R.id.tvUsername);
 
         btnProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,14 +131,16 @@ public class ProfileFragment extends PostsFragment{
         });
 
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
-        rvProfilePosts.setAdapter(adapter);
-        rvProfilePosts.setLayoutManager(new LinearLayoutManager(getContext()));
         queryPosts();
+        adapter = new PostsProfileAdapter(getContext(), allPosts);
+        rvProfilePosts.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        rvProfilePosts.setAdapter(adapter);
+
 
         currentUser = ParseUser.getCurrentUser();
 
         Glide.with(getContext()).load(currentUser.getParseFile("profileImage").getUrl()).into(ivProfileImage);
+        tvUsername.setText(currentUser.getUsername());
 
     }
 

@@ -10,14 +10,20 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.parstagram.R;
+import com.example.parstagram.models.Post;
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -42,6 +48,8 @@ public class DetailsFragment extends Fragment {
     private ImageView ivImage;
     private TextView tvDescription;
     private TextView tvTimestamp;
+    private ImageButton btnLike;
+    private TextView tvLikes;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -89,11 +97,36 @@ public class DetailsFragment extends Fragment {
         ivImage = view.findViewById(R.id.ivImage);
         tvDescription = view.findViewById(R.id.tvDescription);
         tvTimestamp = view.findViewById(R.id.tvTimestamp);
+        btnLike = view.findViewById(R.id.btnLike);
+        tvLikes = view.findViewById(R.id.tvLikes);
 
-        tvUsername.setText(bundle.getString("username"));
-        Glide.with(getContext()).load(bundle.get("image")).into(ivImage);
-        tvDescription.setText(bundle.getString("description"));
-        tvTimestamp.setText(getRelativeTimeAgo(bundle.getString("created_at")));
+        final Post post = (Post) bundle.getParcelable("post");
+        tvUsername.setText(post.getUser().getUsername());
+        if (post.getImage() != null) {
+            Glide.with(getContext()).load(post.getImage().getUrl()).into(ivImage);
+        }
+        tvDescription.setText(post.getDescription());
+        tvTimestamp.setText(getRelativeTimeAgo(post.getCreatedAt().toString()));
+
+        if (post.getLikes() != null) {
+            tvLikes.setText(post.getLikes().size() + " likes");
+            if (has(post.getLikes(), ParseUser.getCurrentUser())) {
+                btnLike.setImageResource(R.drawable.ufi_heart_active);
+            }
+        }
+
+        else {
+            tvLikes.setText("0 likes");
+        }
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                post.addLike(ParseUser.getCurrentUser());
+                post.saveInBackground();
+                tvLikes.setText(post.getLikes().size() + " likes");
+                btnLike.setImageResource(R.drawable.ufi_heart_active);
+            }
+        });
     }
 
     public static String getRelativeTimeAgo(String rawJsonDate) {
@@ -114,5 +147,14 @@ public class DetailsFragment extends Fragment {
         }
 
         return relativeDate;
+    }
+
+    public static boolean has(ArrayList<ParseObject> list, ParseUser parseUser) {
+        for (ParseObject user: list) {
+            if ( ((ParseUser) user).getUsername().equals(parseUser.getUsername())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

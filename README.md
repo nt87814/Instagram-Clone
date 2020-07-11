@@ -8,14 +8,14 @@ Time spent: **X** hours spent in total
 
 The following **required** functionality is completed:
 
-- [ ] User sees app icon in home screen.
+- [x] User sees app icon in home screen.
 - [x] User can sign up to create a new account using Parse authentication
 - [x] User can log in and log out of his or her account
 - [x] The current signed in user is persisted across app restarts
 - [x] User can take a photo, add a caption, and post it to "Instagram"
 - [X] User can view the last 20 posts submitted to "Instagram"
 - [x] User can pull to refresh the last 20 posts submitted to "Instagram"
-- [ ] User can tap a post to view post details, including timestamp and caption.
+- [x] User can tap a post to view post details, including timestamp and caption.
 
 The following **stretch** features are implemented:
 
@@ -23,15 +23,15 @@ The following **stretch** features are implemented:
 - [ ] Style the feed to look like the real Instagram feed.
 - [x] User should switch between different tabs - viewing all posts (feed view), capture (camera and photo gallery view) and profile tabs (posts made) using fragments and a Bottom Navigation View.
 - [ ] User can load more posts once he or she reaches the bottom of the feed using endless scrolling.
-- [ ] Show the username and creation time for each post
+- [x] Show the username and creation time for each post
 - [ ] After the user submits a new post, show an indeterminate progress bar while the post is being uploaded to Parse
 - User Profiles:
-  - [ ] Allow the logged in user to add a profile photo
-  - [ ] Display the profile photo with each post
+  - [x] Allow the logged in user to add a profile photo
+  - [x] Display the profile photo with each post
   - [ ] Tapping on a post's username or profile photo goes to that user's profile page
-  - [ ] User Profile shows posts in a grid view
+  - [x] User Profile shows posts in a grid view
 - [ ] User can comment on a post and see all comments for each post in the post details screen.
-- [ ] User can like a post and see number of likes for each post in the post details screen.
+- [x] User can like a post and see number of likes for each post in the post details screen.
 
 The following **additional** features are implemented:
 

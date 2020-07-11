@@ -8,11 +8,28 @@
     android:orientation="vertical"
     tools:context=".activities.MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/background_dark"
+        android:background="@android:color/background_light">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/nav_logo_whiteout" />
+    </androidx.appcompat.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/flContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigation" />
+        android:layout_width="368dp"
+        android:layout_height="569dp"
+        android:layout_above="@id/bottomNavigation"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="0dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"

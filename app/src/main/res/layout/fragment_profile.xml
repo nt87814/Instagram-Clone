@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:padding="8dp"
         tools:src="@tools:sample/avatars" />
 
@@ -28,10 +28,20 @@
         android:layout_above="@+id/rvProfilePosts"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="134dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
         android:text="Change Profile" />
+
+    <TextView
+        android:id="@+id/tvUsername"
+        android:layout_width="114dp"
+        android:layout_height="22dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="23dp"
+        android:layout_toStartOf="@+id/btnProfileImage"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        tools:text="username" />
 </RelativeLayout>

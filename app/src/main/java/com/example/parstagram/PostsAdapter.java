@@ -84,7 +84,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvTimestamp.setText(DetailsFragment.getRelativeTimeAgo(post.getCreatedAt().toString()));
             ParseFile image = post.getImage();
             if (image != null) {
-                Glide.with(context).load(post.getImage().getUrl()).into(ivImage);
+                Glide.with(context).load(post.getImage().getUrl()).centerInside().into(ivImage);
             }
             Glide.with(context).load(post.getUser().getParseFile("profileImage").getUrl()).into(ivProfileImage);
         }
@@ -98,14 +98,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
                 DetailsFragment detailsFragment = new DetailsFragment();
                 Bundle bundle = new Bundle();
-//                bundle.putParcelable("post", post);
-                bundle.putString("username", post.getUser().getUsername());
-                if (post.getImage() != null) {
-                    bundle.putString("image", post.getImage().getUrl());
-                }
-
-                bundle.putString("description", post.getDescription());
-                bundle.putString("created_at", post.getCreatedAt().toString());
+                bundle.putParcelable("post", post);
                 detailsFragment.setArguments(bundle);
                 switchFragment(R.id.flContainer, detailsFragment);
             }

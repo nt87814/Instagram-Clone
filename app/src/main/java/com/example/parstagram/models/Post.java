@@ -1,11 +1,18 @@
 package com.example.parstagram.models;
 
+import com.example.parstagram.fragments.DetailsFragment;
+import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+import org.parceler.Parcel;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @ParseClassName("Post")
 //@Parcel
@@ -16,6 +23,7 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_NUM_LIKES = "likedBy";
     public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_LIKES = "likes";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -33,12 +41,25 @@ public class Post extends ParseObject {
         put(KEY_IMAGE, parseFile);
     }
 
-    public ParseUser getUser() {
-        return getParseUser(KEY_USER);
-    }
+    public ParseUser getUser() { return getParseUser(KEY_USER); }
 
     public void setUser(ParseUser parseUser) {
         put(KEY_USER, parseUser);
+    }
+
+    public ArrayList<ParseObject> getLikes() { return (ArrayList<ParseObject>) get(KEY_LIKES); }
+
+    public void addLike(ParseUser parseUser) {
+        ArrayList<ParseObject> likedBy = getLikes();
+        if (likedBy != null && !DetailsFragment.has(likedBy, parseUser)) {
+            likedBy.add(parseUser);
+        }
+
+        else {
+            likedBy = new ArrayList<ParseObject>();
+            likedBy.add(parseUser);
+        }
+        put(KEY_LIKES, likedBy);
     }
 
 }
